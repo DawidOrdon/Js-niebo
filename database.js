@@ -29,6 +29,13 @@ export async function getConstellations(){
     FROM constellations join img on constellations.img_id=img.id `)
     return rows
 }
+export async function getConstellation(id){
+    const [rows] = await pool.query(`
+    SELECT * 
+    FROM constellations 
+    where id = ?`,[id])
+    return rows
+}
 
 export async function newStar(name, description,img_id,constellation_id){
     await pool.query(`
@@ -36,6 +43,25 @@ export async function newStar(name, description,img_id,constellation_id){
     (id, name, description, img_id, constellation_id) 
     VALUES (NULL, ?, ?, ?, ?) 
     `,[name,description,img_id,constellation_id])
+}
+
+export async function newConstellation(name, description,img_id,moon,fog,cloudiness,precipitation){
+    await pool.query(`
+    INSERT INTO constellations 
+    (id, name, description, img_id, moon, fog, cloudiness, precipitation) 
+    VALUES (NULL, ?, ?, ?, ?, ?, ?, ?) 
+    `,[name,description,img_id,moon,fog,cloudiness,precipitation])
+}
+
+export async function delConstellation(id){
+    await pool.query(`
+    DELETE FROM stars 
+    WHERE constellation_id= ?
+    `,[id])
+    await pool.query(`
+    DELETE FROM constellations 
+    WHERE id= ?
+    `,[id])
 }
 
 export async function getImg(id){

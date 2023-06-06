@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="./css/main.css" rel="stylesheet">
+    <title>Sky is the limit</title>
+  </head>
+  <body class="bg-dark">
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-5 d-none d-sm-inline"><h1>Sky config</h1></span>
+                    </a>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                        <li class="nav-item">
+                            <h3>Konstelacje</h3>
+                        </li>
+                        <form method="POST" action="/<%if (locals.constellation){%><%=constellation[0].id+"/edit"%><%}else{%>add<%}%>">
+                            <%if (locals.constellation){%><input type="hidden" name="id" value="<%=constellation[0].id%>"><%}%>
+                            <li class="nav-item m-t-2">
+                                Nazwa
+                                <input type="text" name="name" class="form-control" placeholder="nazwa" required value="<%if (locals.constellation){%><%= constellation[0].name %><%}%>">
+                            </li>
+                            <li class="nav-item">
+                                Opis
+                                <input type="text" name="description" class="form-control" placeholder="opis" required value="<%if (locals.constellation){%><%= constellation[0].description %><%}%>">
+                            </li>
+                            <li>
+                                Wygląd konstelacji
+                                <div class="row">
+                                    <% img.forEach(function(row) { %>
+                                        <div class='col text-center'>
+                                            <input type="radio" name="img" id="img<%=row.id%>" class="d-none imgbgchk" value="<%=row.id%>" 
+                                            <% 
+                                            if (locals.constellation){
+                                                if(row.id==constellation[0].img_id){%>selected<%}
+                                            }
+                                            %>>
+                                            <label for="img<%=row.id%>">
+                                                <img src="./img/<%= row.link %>">
+                                                <div class="tick_container">
+                                                  <div class="tick"><i class="fa fa-check"></i></div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    <% }); %>
+                                </div>
+                            </li>
+                            <li>
+                                Faza księżyca
+                                <div class="row">
+                                    <% moon.forEach(function(row) { %>
+                                        <div class='col text-center'>
+                                            <input type="radio" name="moon" id="moon<%=row.id%>" class="d-none imgbgchk" value="<%=row.id%>"
+                                            <% 
+                                            if (locals.constellation){
+                                                if(row.id==constellation[0].moon){%>selected<%}
+                                            }
+                                            %>>
+                                            <label for="moon<%=row.id%>">
+                                                <img src="./img/<%= row.link %>">
+                                                <div class="tick_container">
+                                                  <div class="tick"><i class="fa fa-check"></i></div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    <% }); %>
+                                </div>
+                            </li>
+                            <li>
+                                <label class="form-label">Poziom mgły</label>
+                                <input type="range" class="form-range" min="0" max="10" name="fog" value="<%if (locals.constellation){%><%= constellation[0].fog %><%}%>">
+                            </li>
+                            <li>
+                                <label class="form-label">Zachmurzenie</label>
+                                <input type="range" class="form-range" min="0" max="3" name="cloudiness" value="<%if (locals.constellation){%><%= constellation[0].cloudiness %><%}%>">
+                            </li>
+                            <li>
+                                <label class="form-label">Opady</label>
+                                <input type="range" class="form-range" min="0" max="3" name="precipitation" value="<%if (locals.constellation){%><%= constellation[0].precipitation %><%}%>">
+                            </li>
+                            <li>
+                                <input type="submit" class="btn bg-light w-100" value="<%if (locals.constellation){%><%="Edytuj konstelacje"%><%}else{%>Dodaj konstelacje<%}%>">
+                            </li>
+                        </form>
+                            <%if (locals.constellation){%>
+                                <a href="/<%= constellation[0].id %>/stars"><button class="btn bg-light w-100" style="margin-top: 30px;">Przeglądaj konstelacje</button></a>
+                                <a href="/<%= constellation[0].id %>/del"><button class="btn bg-light w-100" style="margin-top: 30px; width: 100%;">Usun Konstelacje</button></a>
+                            <%}%>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-10">
+                <div class="row py-3 bg-dark">
+                    <% constellations.forEach(function(row) { %>
+                        <div class='col-4 text-center'>
+                            <a href="/<%= row.id %>"><img src="./img/<%= row.link %>" class="img-fluid p-4"></a>
+                        </div>
+                    <% }); %>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>
