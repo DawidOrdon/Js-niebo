@@ -69,7 +69,7 @@ export async function delConstellation(id){
 
 //pobranie wszystich gwiazd 
 export async function getStars(id){
-    const rows = await pool.query(`
+    const [rows] = await pool.query(`
     SELECT stars.id as id, img.link as link 
     FROM img join stars on stars.img_id=img.id 
     WHERE constellation_id = ?
@@ -85,16 +85,32 @@ export async function getStar(id){
     `,[id])
     return rows
 }
-
-export async function newStar(name, description,img_id,constellation_id){
+//nowa gwiazda
+export async function newStar(name, description,img_id,constellation_id,priority,active){
     await pool.query(`
-    INSERT INTO stars 
-    (id, name, description, img_id, constellation_id) 
-    VALUES (NULL, ?, ?, ?, ?) 
-    `,[name,description,img_id,constellation_id])
+    INSERT INTO stars
+    (id, name, description, img_id, constellation_id, priority, active) 
+    VALUES (NULL, ?, ?, ?, ?, ?, ?) 
+    `,[name,description,img_id,constellation_id,priority,active])
 }
-
-
+//usuwanie gwiazdy
+export async function delStar(id){
+    await pool.query(`
+    DELETE FROM stars 
+    WHERE id= ?
+    `,[id])
+}
+export async function editStar(name, description,img_id,priority,active,star_id){
+    await pool.query(`
+    UPDATE stars SET 
+    name = ?, 
+    description = ?, 
+    img_id = ?, 
+    priority = ?, 
+    active = ? 
+    WHERE id = ? 
+    `,[name,description,img_id,priority,active,star_id])
+}
 
 export async function getImg(id){
     const [rows] = await pool.query(`

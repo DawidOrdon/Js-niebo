@@ -7,7 +7,7 @@ app.use(express.urlencoded({extended: true}))
 
 app.set('view engine', 'ejs')
 
-import { getStars, getStar, newStar, getImg, getConstellations, getConstellation, newConstellation, delConstellation, editConstellation } from "./database.js"
+import { getStars, getStar, newStar, getImg, getConstellations, getConstellation, newConstellation, delConstellation, editConstellation, delStar, editStar } from "./database.js"
 
 //konstelacje
 
@@ -56,8 +56,38 @@ app.get('/:id/stars', async (req, res) =>{
     const id = req.params.id
     const img = await getImg(1)
     const stars = await getStars(id)
-    console.log(stars)
-    res.render('stars', {img, stars })
+    res.render('stars', {img, stars,id })
+})
+//generowanie forma do edycji gwiazd
+app.get('/:id/stars/:star_id', async (req, res) =>{
+    const id = req.params.id
+    const star_id = req.params.star_id
+    const img = await getImg(1)
+    const stars = await getStars(id)
+    const star = await getStar(star_id)
+    res.render('stars', {img, stars, id, star })
+})
+//dodawanie gwiazdy
+app.post('/:id/stars/add', async (req, res) =>{
+    const id = req.params.id
+    var active = Boolean(req.body.active)
+    newStar(req.body.name,req.body.description,req.body.img,id,req.body.priority,active)
+    res.redirect('/'+id+'/stars')
+})
+//edycja gwiazdy
+app.post('/:id/stars/:star_id/edit', async (req, res) =>{
+    const id = req.params.id
+    const star_id = req.params.star_id
+    var active = Boolean(req.body.active)
+    editStar(req.body.name,req.body.description,req.body.img,req.body.priority,active,star_id)
+    res.redirect('/'+id+'/stars')
+})
+//usuwanie gwiazdy z konstelacji
+app.get('/:id/stars/:star_id/del', async (req, res) =>{
+    const id = req.params.id
+    const star_id = req.params.star_id
+    delStar(star_id)
+    res.redirect('/'+id+'/stars')
 })
 
 

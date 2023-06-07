@@ -20,24 +20,28 @@
                     </a>
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                         <li class="nav-item">
-                            <h3>Gwiazdy</h3>
+                            <a href="/<%=id%>/stars" class="text-decoration-none text-white"><h3>Gwiazdy</h3></a>
                         </li>
-                        <form method="POST" action="./<%if (locals.star){%><%=star[0].id+"/edit"%><%}else{%>add<%}%>">
+                        <form method="POST" action="/<%=id%>/stars/<%if (locals.star){%><%=star[0].id+"/edit"%><%}else{%>add<%}%>">
                             <li class="nav-item m-t-2">
                                 Nazwa
-                                <input type="text" name="name" class="form-control" placeholder="nazwa" required>
+                                <input type="text" name="name" class="form-control" placeholder="nazwa" required value="<%if (locals.star){%><%= star[0].name %><%}%>">
                             </li>
                             <li class="nav-item">
                                 Opis
-                                <input type="text" name="description" class="form-control" placeholder="opis" required>
+                                <input type="text" name="description" class="form-control" placeholder="opis" required value="<%if (locals.star){%><%= star[0].description %><%}%>">
                             </li>
                             <li>
                                 Wygląd konstelacji
                                 <div class="row">
                                     <% img.forEach(function(row) { %>
                                         <div class='col text-center'>
-                                            <input type="radio" name="img" id="img<%=row.id%>" class="d-none imgbgchk" value="<%=row.id%>" >
-                                           
+                                            <input type="radio" name="img" id="img<%=row.id%>" class="d-none imgbgchk" value="<%=row.id%>" 
+                                            <% 
+                                            if (locals.star){
+                                                if(row.id==star[0].img_id){%>checked<%}
+                                            }
+                                            %>>
                                             <label for="img<%=row.id%>">
                                                 <img src="/img/<%= row.link %>" class="img-fluid">
                                                 <div class="tick_container">
@@ -50,24 +54,28 @@
                             </li>
                             <li>
                                 <label class="form-label">Priorytet</label>
-                                <input type="range" class="form-range" min="0" max="10" name="priority">
+                                <input type="range" class="form-range" min="0" max="10" name="priority" value="<%if (locals.star){%><%= star[0].priority %><%}%>">
                             </li>
                             <li>
                                 <label class="form-label">It's working</label>
-                                <input type="checkbox" class="form-check-input" name="work">
+                                <input type="checkbox" class="form-check-input" name="active" <%if (locals.star){if(star[0].active==1){%> checked <%}}%>>
                             </li>
                             <li>
-                                <input type="submit" class="btn bg-light w-100" value="dodaj Konstelacje">
+                                <input type="submit" class="btn bg-light w-100" value="<%if (locals.star){%><%="Edytuj gwiazdę"%><%}else{%>Dodaj gwiazdę<%}%>">
                             </li>
                         </form>
+                            <%if (locals.star){%>
+                                <a href="/<%= id %>/stars/<%= star[0].id %>/del"><button class="btn bg-light w-100" style="margin-top: 30px; width: 100%;">Usun giwazdę</button></a>
+                            <%}%>
                     </ul>
+                    
                 </div>
             </div>
             <div class="col-10">
                 <div class="row py-3 bg-dark">
                     <% stars.forEach(function(row) { %>
-                        <div class='col-4 text-center'>
-                            
+                        <div class='col-1 text-center'>
+                            <a href="/<%=id%>/stars/<%= row.id %>"><img src="/img/<%= row.link %>" class="img-fluid p-4"></a>
                         </div>
                     <% }); %>
                 
