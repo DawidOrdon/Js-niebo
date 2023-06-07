@@ -1,17 +1,80 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <% stars.forEach(function(row) { %>
-        <tr>
-          <td><%= row.name %></td>
-          <td><%= row.description %></td>
-        </tr>
-      <% }); %>
-</body>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="/css/main.css" rel="stylesheet">
+    <title>Sky is the limit</title>
+  </head>
+  <body class="bg-dark">
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-5 d-none d-sm-inline"><h1>Sky config</h1></span>
+                    </a>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                        <li class="nav-item">
+                            <h3>Gwiazdy</h3>
+                        </li>
+                        <form method="POST" action="./<%if (locals.star){%><%=star[0].id+"/edit"%><%}else{%>add<%}%>">
+                            <li class="nav-item m-t-2">
+                                Nazwa
+                                <input type="text" name="name" class="form-control" placeholder="nazwa" required>
+                            </li>
+                            <li class="nav-item">
+                                Opis
+                                <input type="text" name="description" class="form-control" placeholder="opis" required>
+                            </li>
+                            <li>
+                                Wygląd konstelacji
+                                <div class="row">
+                                    <% img.forEach(function(row) { %>
+                                        <div class='col text-center'>
+                                            <input type="radio" name="img" id="img<%=row.id%>" class="d-none imgbgchk" value="<%=row.id%>" >
+                                           
+                                            <label for="img<%=row.id%>">
+                                                <img src="/img/<%= row.link %>" class="img-fluid">
+                                                <div class="tick_container">
+                                                  <div class="tick"><i class="fa fa-check"></i></div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    <% }); %>
+                                </div>
+                            </li>
+                            <li>
+                                <label class="form-label">Priorytet</label>
+                                <input type="range" class="form-range" min="0" max="10" name="priority">
+                            </li>
+                            <li>
+                                <label class="form-label">It's working</label>
+                                <input type="checkbox" class="form-check-input" name="work">
+                            </li>
+                            <li>
+                                <input type="submit" class="btn bg-light w-100" value="dodaj Konstelacje">
+                            </li>
+                        </form>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-10">
+                <div class="row py-3 bg-dark">
+                    <% stars.forEach(function(row) { %>
+                        <div class='col-4 text-center'>
+                            
+                        </div>
+                    <% }); %>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
 </html>

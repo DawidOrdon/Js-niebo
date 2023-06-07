@@ -7,60 +7,61 @@ app.use(express.urlencoded({extended: true}))
 
 app.set('view engine', 'ejs')
 
-import { getStars, getStar, newStar, getImg, getConstellations, getConstellation, newConstellation, delConstellation } from "./database.js"
+import { getStars, getStar, newStar, getImg, getConstellations, getConstellation, newConstellation, delConstellation, editConstellation } from "./database.js"
 
+//konstelacje
+
+//generowanie pierwszego widoku z formem do dodawania konstelacji
 app.get('/', async (req, res) =>{
     const img = await getImg(2)
     const moon = await getImg(3)
     const constellations = await getConstellations()
-    res.render('new_constellation', {img, moon, constellations})
+    res.render('constellation', {img, moon, constellations})
 })
 
-app.post('/add', async (req, res) =>{
-    newConstellation(req.body.name,req.body.description,req.body.img,req.body.moon,req.body.fog,req.body.cloudiness,req.body.precipitation)
-    res.redirect('/')
-})
-
-
+//generowanie widoku z gwiazdami i formem do edycji
 app.get('/:id', async (req, res) =>{
     const img = await getImg(2)
     const moon = await getImg(3)
     const id = req.params.id
     const constellation = await getConstellation(id)
     const constellations = await getConstellations(id)
-    console.log(constellation[0].name)
-    res.render('new_constellation', {img, moon, constellation, constellations})
+    res.render('constellation', {img, moon, constellation, constellations})
 })
 
+//dodanie konstelacji
+app.post('/add', async (req, res) =>{
+    newConstellation(req.body.name,req.body.description,req.body.img,req.body.moon,req.body.fog,req.body.cloudiness,req.body.precipitation)
+    res.redirect('/')
+})
+
+//edycja konstelacji
 app.post('/:id/edit', async (req, res) =>{
-    res.send('new user' + req.body.name)
-    console.log(req.body.name,req.body.img)
+    const id = req.params.id
+    editConstellation(id,req.body.name,req.body.description,req.body.img,req.body.moon,req.body.fog,req.body.cloudiness,req.body.precipitation)
+    res.redirect('/')
 })
 
+//usuwanie konstelacji
 app.get('/:id/del', async (req, res) =>{
     const id = req.params.id
     delConstellation(id)
     res.redirect('/')
 })
 
+//gwiazdy
 
-
-app.get('/stars', async (req, res) =>{
-    const stars = await getStars()
-    res.render('stars', {stars})
+//generowanie forma do dodawnia gwiazd
+app.get('/:id/stars', async (req, res) =>{
+    const id = req.params.id
+    const img = await getImg(1)
+    const stars = await getStars(id)
+    console.log(stars)
+    res.render('stars', {img, stars })
 })
 
-app.get('/new_stars', (req, res) =>{
-    res.render('new_star')
-})
 
 
-
-app.post('/new_stars',(req, res) => {
-    res.send('new user' + req.body.name)
-    console.log(req.body.name)
-    newStar(req.body.name,req.body.description,req.body.img_id,req.body.constelation_id)
-})
 
 
 
