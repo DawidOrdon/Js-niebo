@@ -75,7 +75,8 @@
                 <div class="row py-3 bg-dark">
                     <% stars.forEach(function(row) { %>
                         <div class='col-1 text-center'>
-                            <a href="/<%=id%>/stars/<%= row.id %>"><img src="/img/<%= row.link %>" class="img-fluid p-4"></a>
+                            
+                            <a href="/<%=id%>/stars/<%= row.id %>"><%if(row.active==1){%><img src="/img/<%= row.link %>" class="img-fluid p-4"><%}else{%><img src="/img/off.png"><%}%></a>
                         </div>
                     <% }); %>
                 

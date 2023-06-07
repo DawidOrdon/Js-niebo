@@ -70,7 +70,7 @@ export async function delConstellation(id){
 //pobranie wszystich gwiazd 
 export async function getStars(id){
     const [rows] = await pool.query(`
-    SELECT stars.id as id, img.link as link 
+    SELECT stars.id as id, img.link as link, stars.active as active 
     FROM img join stars on stars.img_id=img.id 
     WHERE constellation_id = ?
     `,[id])

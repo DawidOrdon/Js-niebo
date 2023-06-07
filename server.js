@@ -56,6 +56,7 @@ app.get('/:id/stars', async (req, res) =>{
     const id = req.params.id
     const img = await getImg(1)
     const stars = await getStars(id)
+    console.log(stars[0].active)
     res.render('stars', {img, stars,id })
 })
 //generowanie forma do edycji gwiazd
