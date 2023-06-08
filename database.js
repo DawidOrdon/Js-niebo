@@ -73,6 +73,7 @@ export async function getStars(id){
     SELECT stars.id as id, img.link as link, stars.active as active 
     FROM img join stars on stars.img_id=img.id 
     WHERE constellation_id = ?
+    order by stars.priority desc
     `,[id])
     return rows
 }

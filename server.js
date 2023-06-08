@@ -58,7 +58,6 @@ app.get('/:id/stars', async (req, res) =>{
     const stars = await getStars(id) //pobranie gwiazd
     const constellation = await getConstellation(id)
     const moon = await getMoon(constellation[0].moon)
-    console.log(moon[0].link)
     res.render('stars', {img, stars, id, moon, constellation })
 })
 //generowanie forma do edycji gwiazd
@@ -69,8 +68,8 @@ app.get('/:id/stars/:star_id', async (req, res) =>{
     const stars = await getStars(id)
     const star = await getStar(star_id)
     const constellation = await getConstellation(id)
-    console.log(constellation[0].moon)
-    res.render('stars', {img, stars, id, star})
+    const moon = await getMoon(constellation[0].moon)
+    res.render('stars', {img, stars, id, star, moon, constellation})
 })
 //dodawanie gwiazdy
 app.post('/:id/stars/add', async (req, res) =>{
