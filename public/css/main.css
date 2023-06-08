@@ -51,7 +51,7 @@ html,body{
 }
 #menu
 {
-    z-index: 3;
+    z-index: 5;
 }
 #fog {
     position: relative;
@@ -66,8 +66,10 @@ html,body{
     left: 0;
     right: 0;
     bottom: 0;
+    background-image: url('/img/fog.png');
     background-size: cover;
-    z-index: 1;
+    opacity: 0.4; /* Wybierz wartość od 0 do 1 */
+    z-index: 3;
     pointer-events: none;
 }
 #cloud {
@@ -81,7 +83,9 @@ html,body{
     left: 0;
     right: 0;
     bottom: 0;
+    background-image: url('/img/cloud.png');
     background-size: cover;
+    opacity: 0.4; /* Wybierz wartość od 0 do 1 */
     z-index: 1;
     pointer-events: none;
 }
@@ -97,7 +101,9 @@ html,body{
     left: 0;
     right: 0;
     bottom: 0;
+    background-image: url('/img/cloud.png');
     background-size: cover;
-    z-index: 1;
+    opacity: 0.4; /* Wybierz wartość od 0 do 1 */
+    z-index: 2 ;
     pointer-events: none;
 }

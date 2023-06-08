@@ -17,8 +17,8 @@
             opacity: <%= constellation[0].cloudiness/10 %>;
         }
         #rain::after {
-            background-image: url('/img/<%if(constellation[0].precipitation==2){%>rain.png<%}else{%>storm.png<%}%>');
-            opacity: <%if(constellation[0]==0){%>0<%}else{%>0.5<%}%>;
+            background-image: url('/img/<%if(constellation[0].precipitation==1){%>rain.png<%}else if(constellation[0].precipitation==2){%>storm.png<%}%>');
+            opacity: <%if(constellation[0].cloudiness==0){%>0<%}else{%>0.5<%}%>;
         }
     </style>
   </head>
