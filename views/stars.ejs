@@ -9,11 +9,25 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="/css/main.css" rel="stylesheet">
     <title>Sky is the limit</title>
+    <style>
+        #fog::after {
+            opacity: <%= constellation[0].fog/10 %>;
+        }
+        #cloud::after {
+            opacity: <%= constellation[0].cloudiness/10 %>;
+        }
+        #rain::after {
+            background-image: url('/img/<%if(constellation[0].precipitation==2){%>rain.png<%}else{%>storm.png<%}%>');
+            opacity: <%if(constellation[0]==0){%>0<%}else{%>0.5<%}%>;
+        }
+    </style>
   </head>
-  <body class="bg-dark">
-    <div class="container-fluid">
-        <div class="row flex-nowrap">
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+  <body class="bg-dark h-100">
+    <div class="container-fluid h-100">
+        <div id="cloud">
+        <div id="rain">
+        <div class="row flex-nowrap" id="fog">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark" id="menu">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                     <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <span class="fs-5 d-none d-sm-inline"><h1>Sky config</h1></span>
@@ -69,27 +83,24 @@
                             <li>
                                 <a href="/<%= id %>/stars/<%= star[0].id %>/del"><button class="btn bg-light w-100" style="margin-top: 30px; width: 100%;">Usun giwazdę</button></a>
                             </li>
-                            <%}%>
-                            <li style="text-align: center; margin-top: 200px;">
-                                <img src="/img/<%=moon[0].link%>" class="img-fluid">    
-                            </li>
-                            
-                            
+                            <%}%>             
                     </ul>
                     
                 </div>
             </div>
-            <div class="col-10 bg_moon">
-                <div class="row py-3 bg-dark">
+            <div class="col-10 h-100 bg-light">
+                <div class="row py-3 bg-dark h-100">
+                    <div class="col-2"><img src="/img/<%=moon[0].link%>" class="img-fluid"></div>
                     <% stars.forEach(function(row) { %>
                         <div class='col-1 text-center'>
-                            
-                            <a href="/<%=id%>/stars/<%= row.id %>"><%if(row.active==1){%><img src="/img/<%= row.link %>" class="img-fluid p-4"><%}else{%><img src="/img/off.png"><%}%></a>
+                            <a href="/<%=id%>/stars/<%= row.id %>"><%if(row.active==1){%><img src="/img/<%= row.link %>" class="img-fluid p-2"><%}else{%><img src="/img/off.png"><%}%></a>
                         </div>
                     <% }); %>
                 
                 </div>
             </div>
+        </div>
+        </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
