@@ -7,7 +7,7 @@ app.use(express.urlencoded({extended: true}))
 
 app.set('view engine', 'ejs')
 
-import { getStars, getStar, newStar, getImg, getConstellations, getConstellation, newConstellation, delConstellation, editConstellation, delStar, editStar } from "./database.js"
+import { getStars, getStar, newStar, getImg, getConstellations, getConstellation, newConstellation, delConstellation, editConstellation, delStar, editStar, getMoon } from "./database.js"
 
 //konstelacje
 
@@ -53,11 +53,13 @@ app.get('/:id/del', async (req, res) =>{
 
 //generowanie forma do dodawnia gwiazd
 app.get('/:id/stars', async (req, res) =>{
-    const id = req.params.id
-    const img = await getImg(1)
-    const stars = await getStars(id)
-    console.log(stars[0].active)
-    res.render('stars', {img, stars,id })
+    const id = req.params.id //id konstelacji
+    const img = await getImg(1) //pobranie zdjec gwiazd
+    const stars = await getStars(id) //pobranie gwiazd
+    const constellation = await getConstellation(id)
+    const moon = await getMoon(constellation[0].moon)
+    console.log(moon[0].link)
+    res.render('stars', {img, stars, id, moon, constellation })
 })
 //generowanie forma do edycji gwiazd
 app.get('/:id/stars/:star_id', async (req, res) =>{
@@ -66,7 +68,9 @@ app.get('/:id/stars/:star_id', async (req, res) =>{
     const img = await getImg(1)
     const stars = await getStars(id)
     const star = await getStar(star_id)
-    res.render('stars', {img, stars, id, star })
+    const constellation = await getConstellation(id)
+    console.log(constellation[0].moon)
+    res.render('stars', {img, stars, id, star})
 })
 //dodawanie gwiazdy
 app.post('/:id/stars/add', async (req, res) =>{

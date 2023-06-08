@@ -100,6 +100,7 @@ export async function delStar(id){
     WHERE id= ?
     `,[id])
 }
+//adytowanie gwiazdy
 export async function editStar(name, description,img_id,priority,active,star_id){
     await pool.query(`
     UPDATE stars SET 
@@ -110,6 +111,15 @@ export async function editStar(name, description,img_id,priority,active,star_id)
     active = ? 
     WHERE id = ? 
     `,[name,description,img_id,priority,active,star_id])
+}
+
+export async function getMoon(id){
+    const [row] = await pool.query(`
+    select link 
+    from img 
+    where id = ?
+    `,[id])
+    return row
 }
 
 export async function getImg(id){

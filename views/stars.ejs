@@ -64,14 +64,22 @@
                                 <input type="submit" class="btn bg-light w-100" value="<%if (locals.star){%><%="Edytuj gwiazdę"%><%}else{%>Dodaj gwiazdę<%}%>">
                             </li>
                         </form>
+                            
                             <%if (locals.star){%>
+                            <li>
                                 <a href="/<%= id %>/stars/<%= star[0].id %>/del"><button class="btn bg-light w-100" style="margin-top: 30px; width: 100%;">Usun giwazdę</button></a>
+                            </li>
                             <%}%>
+                            <li style="text-align: center; margin-top: 200px;">
+                                <img src="/img/<%=moon[0].link%>" class="img-fluid">    
+                            </li>
+                            
+                            
                     </ul>
                     
                 </div>
             </div>
-            <div class="col-10">
+            <div class="col-10 bg_moon">
                 <div class="row py-3 bg-dark">
                     <% stars.forEach(function(row) { %>
                         <div class='col-1 text-center'>
